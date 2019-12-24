@@ -6,14 +6,15 @@ class PlayerData {
     recentMapRatio = {};
 }
 
-// TODO authorization key from storage
+// TODO: authorization key from storage
+// TODO: getting current maps from storage in methods responsible for getting recent and total map ratios
 class PlayerDataApiBuilder {
     constructor(matchId, userNickname) {
         this.matchId = matchId;
         this.userNickname = userNickname;
         this.playerData = new PlayerData();
     }
-    // My plan for a build() was to like this:
+    // My plan for a build() was to look like this:
     // this.buildId();
     // this.buildTotalData();
     // this.buildRecentData();
@@ -27,12 +28,8 @@ class PlayerDataApiBuilder {
         var self = this;
 
         function getId(apiResult, userName) {
-            var isUserInFaction1 = apiResult.teams.faction1.roster.some(function (element) {
-                return element.nickname === userName;
-            });
-            var isUserInFaction2 = apiResult.teams.faction2.roster.some(function (element) {
-                return element.nickname === userName;
-            });
+            var isUserInFaction1 = apiResult.teams.faction1.roster.some(x => x.nickname === userName);
+            var isUserInFaction2 = apiResult.teams.faction2.roster.some(x => x.nickname === userName);
             if (isUserInFaction1 === false && isUserInFaction2 === false) {
                 var opposingCaptainId = "User nickname didn't match any of nicknames in the current room";
             }
@@ -63,11 +60,20 @@ class PlayerDataApiBuilder {
         var self = this;
 
         function getTotalMapRatio(apiResult) {
+            var maps = ["de_nuke", "de_vertigo", "de_overpass", "de_mirage", "de_cache", "de_dust2", "de_train", "de_inferno"];
             var totalMatchCount = apiResult.lifetime.Matches;
             var dict = {};
-            apiResult.segments.forEach(function (element) {
-                dict[element.label] = element.stats.Matches / totalMatchCount;
+            apiResult.segments.forEach(x => {
+                if (maps.includes(x.label)) {
+                    dict[x.label] = x.stats.Matches / totalMatchCount;
+                }
             });
+            if (maps.length !== Object.keys(dict).length) {
+                let nonPlayedMaps = maps.filter(x => !Object.keys(dict).includes(x));
+                nonPlayedMaps.forEach(x => {
+                    dict[x] = 0;
+                });
+            }
             return dict;
         }
         function getTotalMatches(apiResult) {
@@ -94,19 +100,15 @@ class PlayerDataApiBuilder {
             var date = new Date();
             date.setMonth(date.getMonth() - months);
             var unixTimeStamp = Math.round(date.getTime());
-            var filteredMatches = matches.filter(function (item) {
-                return item.created_at > unixTimeStamp;
-            });
+            var filteredMatches = matches.filter(x => x.created_at > unixTimeStamp);
             return filteredMatches;
         }
 
         function getRecentMatches(matches) {
-            var maps = ["de_nuke", "de_vertigo", "de_overpass", "de_mirage", "de_cache", "de_dust2", "de_train", "de_cbble"];
+            var maps = ["de_nuke", "de_vertigo", "de_overpass", "de_mirage", "de_cache", "de_dust2", "de_train", "de_inferno"];
             var dict = {};
             maps.forEach(function (element) {
-                var mapCount = matches.filter(function (item) {
-                    return item.i1 === element;
-                });
+                var mapCount = matches.filter(x => x.i1 === element);
                 dict[element] = mapCount.length / matches.length;
             });
             return dict;
