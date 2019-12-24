@@ -1,12 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <style>
+        .mapBox {
+            margin-top: 1px;
+            margin-bottom: 1px;
+            border: 1px solid black;
+            padding: 3px 3px 3px 3px;
+            width: 150px;
+            text-align: center;
+        }
+
+        main:first-child {
+            margin: 10px 10px 10px 10px;
+        }
+
+        .selected {
+            background-color: grey;
+        }
+    </style>
 </head>
 <body>
-    <div>
-        Your FaceIt nickname: <input type="text" id="nickname"/>
-    </div>
-    <button id="saveButton">Save</button>
+    <main>
+        <div id="userData" class="container border">
+            Your FaceIt nickname: <input type="text" class="form-control" id="nickname" />
+        </div>
+        <div>
+            <a>Select map and use arrow keys to order maps.<br /> Map at the top is the one that you want to play the most.</a>
+            <div id="mapPriority">
+            </div>
+        </div>
+
+        <button id="saveButton"> Save</button>
+    </main>
+
     <script src="lib/jquery.min.js"></script>
     <script src="options.js"></script>
 </body>
