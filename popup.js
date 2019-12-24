@@ -1,10 +1,13 @@
 chrome.tabs.query({ 'active': true, 'lastFocusedWindow': true }, function (tabs) {
     let matchId = getMatchIdFromURL(tabs[0].url);
-    var builder = new PlayerDataApiBuilder(matchId, "asd2ws");
-    var playerData = builder.build();
-    console.log(playerData);
-    $(document).ajaxStop(function () {
-        createDataTable(playerData);
+    chrome.storage.sync.get(['userNickname'], x => {
+        var builder = new PlayerDataApiBuilder(matchId, x.userNickname);
+        var playerData = builder.build();
+        $(document).ajaxStop(function () {
+            createDataTable(playerData);
+            console.log(x);
+            $("#userNickname").append(`Current User: ${x.userNickname}`);
+        });
     });
 });
 
