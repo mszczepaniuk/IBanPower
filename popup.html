@@ -6,22 +6,32 @@
             font-family: arial, sans-serif;
             border-collapse: collapse;
             width: 100%;
+            margin-bottom:5px;
         }
         td, th {
             border: 1px solid #dddddd;
             padding: 8px;
             text-align: center;
         }
+        .tableDiv {
+            text-align:center;
+        }
     </style>
 </head>
-<body>
-    <a id="userNickname"></a>
-    <div id="dataTable" style="min-width: 120px; text-align:center;">
-        <a>Table is being drawn</a>
+<body style="min-width: 150px">
+    <div style="text-align:center;">
+        <a id="info">Tables are being drawn</a>
+    </div>
+    <div id="dataTable" class="tableDiv" >
+
+    </div>
+    <div id="banTable" class="tableDiv">
+
     </div>
 
 
     <script src="lib/jquery.min.js"></script>
+    <script src="Classes/BanArrayFactory.js"></script>
     <script src="Classes/PlayerData.js"></script>
     <script src="popup.js"></script>
 </body>
