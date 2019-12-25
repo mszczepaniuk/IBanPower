@@ -20,6 +20,9 @@ chrome.tabs.query({ 'active': true, 'lastFocusedWindow': true }, function (tabs)
 function getMatchIdFromURL(url) {
     let matchIdFormat = new RegExp('.-.{8}-.{4}-.{4}-.{4}-.{12}');
     let matchId = matchIdFormat.exec(url);
+    if (matchId === null) {
+        throw new Error("Couldn't find match id");
+    }
     return matchId;
 }
 // TODO: Sorting.
@@ -42,7 +45,6 @@ function createBanTable(maps) {
     });
     tableHtmlString += '</table>';
     $('#banTable').append(tableHtmlString);
-
 }
 
 function createMapPriorityArray(playerData) {

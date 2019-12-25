@@ -21,6 +21,9 @@ class PlayerDataApiBuilder {
     // But proper building of this object depends on first answer from FaceIt API, so the latter 2 methods are hidden in AJAX request in buildId().
     build() {
         this.buildId();
+        if (this.playerData.recentMatches.length !== this.playerData.totalMatches.length) {
+            throw new Error("recentMatches array has to be equal to totalMatches array");
+        }
         return this.playerData;
     }
 
@@ -30,8 +33,9 @@ class PlayerDataApiBuilder {
         function getId(apiResult, userName) {
             var isUserInFaction1 = apiResult.teams.faction1.roster.some(x => x.nickname === userName);
             var isUserInFaction2 = apiResult.teams.faction2.roster.some(x => x.nickname === userName);
+            var opposingCaptainId = '';
             if (isUserInFaction1 === false && isUserInFaction2 === false) {
-                var opposingCaptainId = "User nickname didn't match any of nicknames in the current room";
+                throw new Error(`User ${userMame}, wasn't found in any team`);
             }
             else if (isUserInFaction1 === true) {
                 opposingCaptainId = apiResult.teams.faction2.leader;
