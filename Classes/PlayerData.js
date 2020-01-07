@@ -6,14 +6,13 @@ class PlayerData {
     recentMapRatio = {};
 }
 
-// TODO: authorization key from storage
-// TODO: getting current maps from storage in methods responsible for getting recent and total map ratios
 class PlayerDataApiBuilder {
     constructor(matchId, userNickname) {
         this.matchId = matchId;
         this.userNickname = userNickname;
         this.playerData = new PlayerData();
     }
+
     // My plan for a build() was to look like this:
     // this.buildId();
     // this.buildTotalData();

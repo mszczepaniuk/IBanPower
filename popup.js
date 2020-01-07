@@ -68,7 +68,7 @@ function sortDataTable(columnId) {
     playerData.recentMapRatio = recentMapRatio;
     createDataTable(playerData);
 }
-// TODO: Sorting.
+
 function createDataTable(playerData) {
     $(`#dataTable`).html('');
     $('#info').html('');
