@@ -19,9 +19,3 @@ First table consists of opposing team captain data. TMR means total map ratio an
 Table can be sorted by clicking on TMR or RMR.
 
 Second table presents suggested ban priority. Sorted from the map that user should ban to the ones that user should avoid banning.
-
-
-
-## To do
-
-1. Make options menu prettier.
